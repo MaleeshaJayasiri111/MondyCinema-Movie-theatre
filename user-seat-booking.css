@@ -1,0 +1,252 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    margin: 0;
+}
+
+header {
+    background-color: #1a1a2e;
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #ecacac;
+    font-family: 'Montserrat', sans-serif;
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+    animation: zoomInOut 1.5s ease-in-out infinite alternate;
+}
+
+.logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s, transform 0.3s;
+    margin-right: 45px;
+}
+
+nav a:hover {
+    color: #e94560;
+    transform: translateY(-2px);
+}
+
+@keyframes zoomInOut {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.05);
+    }
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    width: 90%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-top: 5%;
+    position: relative; 
+}
+
+h1 {
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.user-actions {
+    position: absolute;
+    top: 5%; 
+    left: -200px;
+    transform: translateY(-50%);
+    z-index: 999;
+}
+
+.profile-button {
+    background-color: #1a1a2e;
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.profile-button:hover {
+    background-color: #0d0d1a;
+    transform: scale(1.05);
+}
+
+.seat-map-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.screen {
+    background-color: #555;
+    color: #fff;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+}
+
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 10px;
+    padding: 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.seat {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.seat input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.seat-label {
+    z-index: 1;
+}
+
+.available {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.booked {
+    background-color: #dc3545;
+    color: #fff;
+    cursor: not-allowed;
+}
+
+.selected {
+    background-color: #28a745;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.pending {
+    background-color: #ffc107;
+    color: #fff;
+    cursor: not-allowed;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1em;
+}
+
+.legend-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+}
+
+.customer-details {
+    width: 100%;
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.customer-details label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.customer-details input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.customer-details button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.customer-details button:hover {
+    background-color: #0056b3;
+}
+
+
+@media (max-width: 600px) {
+    .seat-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
