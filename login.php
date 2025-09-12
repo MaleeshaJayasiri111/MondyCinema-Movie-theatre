@@ -1,20 +1,30 @@
 <?php
 session_start();
-if (isset($_SESSION['loggedin'])) {
-    header("Location: dashboard.php");
-    exit;
-}
+include_once('config.php');
+include_once('BO/User.php');
+
 $error = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
-    if ($username === 'Mondy Cinema' && $password === 'Admin@2025') {
-        $_SESSION['loggedin'] = true;
-        $_SESSION['success_message'] = "You're successfully logged in to admin dashboard";
-        header("Location: dashboard.php");
-        exit;
+
+    $user = User::Login($email, $password);
+    if ($user) {
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_name'] = $user['name'];
+        $_SESSION['user_email'] = $user['email'];
+        
+        if (isset($_SESSION['redirect_to'])) {
+            $redirect = $_SESSION['redirect_to'];
+            unset($_SESSION['redirect_to']);
+            header("Location: $redirect");
+        } else {
+            header("Location: bookseats.php");
+        }
+        exit();
     } else {
-        $error = "Incorrect username or password";
+        $error = "Invalid email or password!";
     }
 }
 ?>
@@ -23,27 +33,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
-    <link rel="stylesheet" href="../assets/style/admin-login.css">
+    <title>Login - MondyCinema</title>
+    <link rel="stylesheet" href="assets/style/user-login.css">
 </head>
-<body class="login-body">
-    <h1 class="app-name">Mondy Cinema</h1>
-    <div class="login-container">
-        <h2 class="login-title">Admin Login</h2>
-        <?php if (!empty($error)): ?>
-            <div class="message error"><?php echo $error; ?></div>
-        <?php endif; ?>
-        <form method="post" action="login.php">
-            <div class="input-group">
-                <input type="text" name="username" placeholder="Username" required>
-            </div>
-            <div class="input-group">
-                <input type="password" name="password" placeholder="Password" required>
-            </div>
-            <div class="button-group">
-                <input type="submit" value="Login">
-            </div>
-        </form>
-    </div>
+<body>
+    <header>
+        <div class="logo">MondyCinema</div>
+        <nav>
+            <?php if(isset($_SESSION['user_id'])): ?>
+                <a href="index.php">Home</a>
+                <a href="logout.php">Logout</a>
+            <?php else: ?>
+                <a href="index.php">Home</a>
+                <a href="login.php">Login</a>
+                <a href="register.php">Register</a>
+            <?php endif; ?>
+        </nav>
+    </header>
+    
+    <main class="container">
+        <div class="form-container">
+            <h2>Login</h2>
+            
+            <?php if ($error): ?>
+                <p class="error"><?php echo $error; ?></p>
+            <?php endif; ?>
+            
+            <form method="post">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+            
+            <p>Don't have an account? <a href="register.php">Register here</a>.</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 MondyCinema. All rights reserved.</p>
+    </footer>
 </body>
 </html>
