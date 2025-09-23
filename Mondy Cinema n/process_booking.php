@@ -1,12 +1,14 @@
 <?php
 session_start();
+include("config.php");
 include("BO/Booking.php");
+include("BO/Show.php");
 
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
-    $showId = $_POST['show_id'];
+    $showId = isset($_POST['show_id']) ? intval($_POST['show_id']) : null;
     $customerName = $_POST['customer_name'];
     $customerPhone = $_POST['customer_phone'];
     $selectedSeats = isset($_POST['seats']) ? $_POST['seats'] : [];
@@ -16,8 +18,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
+    if (!$showId) {
+        echo json_encode(['status' => 'error', 'message' => 'Show ID is missing. Please select a valid show.']);
+        exit;
+    }
+
     $booking = new Booking();
-    $bookingId = $booking->CreateBooking($userId, $showId, $customerName, $customerPhone, $selectedSeats, 'pending');
+    $status = 'pending';
+    $bookingId = $booking->CreateBooking($userId, $showId, $customerName, $customerPhone, $selectedSeats, $status);
     $booking->closeConnection();
 
     if ($bookingId) {
