@@ -117,7 +117,7 @@ $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '1';
                 const selectedOption = movieSelect.options[movieSelect.selectedIndex];
                 const ticketPrice = parseFloat(selectedOption.getAttribute('data-price')) || 0;
                 const total = ticketPrice * parseInt(seatCount);
-                ticketPriceInput.value = total.toFixed(2);
+                ticketPriceInput.value = ticketPrice.toFixed(2);
                 totalPriceSpan.textContent = `Rs. ${total.toFixed(2)}`;
                 amountInput.value = total.toFixed(2);
             }
